@@ -1,3 +1,5 @@
+##Random Unix Notes
+
 ctrl+a to go to beginning of line, ctrl+e to end of line, alt then click to go anywhere
 
 "screen" use Ctrl+a " to access screens, Ctrl+a c to create a new screen and Ctrl+a A to name it Ctrl+a Ctrl+a to cycle
@@ -63,11 +65,8 @@ use awk to print to certain decimal places
 e.g. cat less.txt | awk '{printf "%s %.2f %s\n", $1, $2, $3}'
 
 port search or install for macports
-export ACLOCAL_FLAGS="-I /opt/gnome-2.3/share/aclocal"
-export LD_LIBRARY_PATH=prefix/lib
-export PKG_LIBRARY_PATH="prefix/lib/pkgconfig:/usr/lib/pkgconfig"
 
-** is math.pow in python...it does 2 ** 3 = 8 like so
+\** is math.pow in python...it does 2 ** 3 = 8 like so
 
 numpy.arange(start,end,increment) can make a range of values (end not inclusive)
 numpy.linspace(start,end,num=numofsteps) can make a range of values too, even n-dimensionally, end not inclusive
