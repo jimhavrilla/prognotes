@@ -1,5 +1,3 @@
-bekiranov's pc: 128.143.16.113
-
 ctrl+a to go to beginning of line, ctrl+e to end of line, alt then click to go anywhere
 
 "screen" use Ctrl+a " to access screens, Ctrl+a c to create a new screen and Ctrl+a A to name it Ctrl+a Ctrl+a to cycle
