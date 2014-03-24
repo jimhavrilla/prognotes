@@ -22,6 +22,8 @@
 
 ####qstat -u username to show user's jobs
 
+####qhold jobid to hold a job
+
 ####qdel jobid to kill a job
 
 ##[Great link for commands](http://hpc.sissa.it/pbs/pbs-2.html)
