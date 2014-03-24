@@ -1,6 +1,6 @@
 #In qsub:
 
-Always provide full paths especially for executables
+**__Always provide full paths especially for executables__**
 
 to import your current user environment use the -V option to import specific variables use -v
 
