@@ -31,7 +31,7 @@ git log --oneline puts changes on oneline --graph makes a little line graph that
 
 ** if you go on github you can add collaborators to your repository so they can help you with the coding and push changes
 
-** git pull will update shit from github to your local copy of the repository
+** git pull will update stuff from github to your local copy of the repository
 
 ** find . -type f -exec mv {}.bam {}.txt # to change all bams to .txt files...awesome
 
