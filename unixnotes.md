@@ -16,24 +16,25 @@ ls -d gives you file path (in echo form with file name)
 
 find . -type f -name "*1*" -exec grep Volume {} \;  # cool way to look for a certain group of files, then execute a command on the results; the {} can be used to execute the command on a specific file or if empty all files.  the \; terminates output because otherwise you could keep typing commands
 
-git init to create a new local repository
-git config -- global color.ui "auto" #adds colors
-git config -- global core.editor "nano" # changes the editor to nano
-git config -- global core.autocrlf "input" # for windows just write true
-git add blahfile.txt adds file to "staging area" (-A adds all files); then do git commit -m "message" to finalize the change locally; git status to check the state; git log shows you what has been done; git branch shows branches, git branch name creates a new one; 
-** git diff shows you what is different between what has already been committed and what hasn't been even line by line...awesome
-** git checkout -- specificfile.txt will allow you to recover your unedited version as long as you dont commit or add (maybe just commit); also git checkout branch can be used to switch branches which ACTUALLY have DIFFERENT local files
-** git merge branch will merge that branch to the current branch; if the two files are the same name but different it will create a conflict unless it is simply adding a line or something like that.  so you edit the file and then add and commit it and then merge in the other branch and you're done **  
-git log --oneline puts changes on oneline --graph makes a little line graph that shows the connection between commits and branches
-** git ls-tree -r master shows you all files in that branch
-
-** if you fork the git repository online from someone else to yours you can edit a copy separately without worrying about conflict
-
-** git remote add origin https://github.com/jimhavrilla/scratch.git to add a remote repository origin; git remote to see what remote repositories are linked, like origin (and there can be a different one for fetch/pull and push); git push origin master will make the changes to the master branch remotely
-
-** if you go on github you can add collaborators to your repository so they can help you with the coding and push changes
-
-** git pull will update stuff from github to your local copy of the repository
+###git
+1. git init to create a new local repository
+2. git config -- global color.ui "auto" #adds colors
+3. git config -- global core.editor "nano" # changes the editor to nano
+4. git config -- global core.autocrlf "input" # for windows just write true
+5. git add blahfile.txt adds file to "staging area" (-A adds all files); then do git commit -m "message" to finalize the
+change locally
+6. git status to check the state
+7. git log shows you what has been done
+8. git branch shows branches, git branchname creates a new one; 
+9. git diff shows you what is different between what has already been committed and what hasn't been even line by line...awesome
+10. git checkout -- specificfile.txt will allow you to recover your unedited version or previous versions of files also git checkout branch can be used to switch branches which ACTUALLY have DIFFERENT local files
+11. git merge branch will merge that branch to the current branch; if the two files are the same name but different it will create a conflict unless it is simply adding a line or something like that.  so you edit the file and then add and commit it and then merge in the other branch and you're done 
+12. git log --oneline puts changes on oneline --graph makes a little line graph that shows the connection between commits and branches
+13. git ls-tree -r master shows you all files in that branch
+14. if you fork the git repository online from someone else to yours you can edit a copy separately without worrying about conflict
+15. git remote add origin https://github.com/jimhavrilla/general.git to add a remote repository origin; git remote to see what remote repositories are linked, like origin (and there can be a different one for fetch/pull and push); git push origin master will make the changes to the master branch remotely
+16. if you go on github you can add collaborators to your repository so they can help you with the coding and push changes
+17. git pull will update stuff from github to your local copy of the repository
 
 ** find . -type f -exec mv {}.bam {}.txt # to change all bams to .txt files...awesome
 
