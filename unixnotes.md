@@ -73,7 +73,7 @@ numpy.linspace(start,end,num=numofsteps) can make a range of values too, even n-
 
 also in python: define functions like ---
 def stupidfunc(x,y):
-	"""this is dumb""" # a docstring which you can call and learn about your function using function.__doc__
+	"""this is dumb""" # a docstring which you can call and learn about your function using function.\_\_doc\_\_
 	return x+y
 
 ** in ipython pressing Tab after object. gives you a list of fields or methods to choose from
