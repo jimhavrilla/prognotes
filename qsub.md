@@ -21,4 +21,4 @@ qstat -u username to show user's jobs
 
 qdel jobid to kill a job
 
-good link for commands http://hpc.sissa.it/pbs/pbs-2.html
+[good link for commands](http://hpc.sissa.it/pbs/pbs-2.html)
