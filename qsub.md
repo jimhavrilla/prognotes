@@ -20,7 +20,9 @@
 
 > et cetera...
 
+to delete all user jobs:
 
+qselect -u username | xargs qdel
 
 ####-m indicates which things you would like the queue to mail to you b is before, e is error, a is after, and -M should be followed by your email address so it knows where to send it
 
