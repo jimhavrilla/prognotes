@@ -14,6 +14,10 @@ history to get full history
 / is root
 ls -d gives you file path (in echo form with file name), -h gives biggest byte size like GB or MB, can also use --block-size=M etc.
 
+to uniq by column:
+for the first 3 columns to make a key field...
+sort -u -k1,3
+
 find . -type f -name "*1*" -exec grep Volume {} \;  # cool way to look for a certain group of files, then execute a command on the results; the {} can be used to execute the command on a specific file or if empty all files.  the \; terminates output because otherwise you could keep typing commands
 
 ###git
