@@ -14,6 +14,10 @@ history to get full history
 / is root
 ls -d gives you file path (in echo form with file name), -h gives biggest byte size like GB or MB, can also use --block-size=M etc.
 
+top will show processes top ones first and can be done by user
+
+"nohup command &" will not only run a command in the background but keep running it even if the terminal is closed!
+
 to uniq by column:
 for the first 3 columns to make a key field...
 sort -u -k1,3
