@@ -50,6 +50,7 @@ change locally
 Under [branch "master"], try adding the following to the repo's Git config file (.git/config):
 
 [branch "master"]
+
     remote = origin
     merge = refs/heads/master
 
