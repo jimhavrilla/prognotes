@@ -18,6 +18,9 @@ top will show processes top ones first and can be done by user
 
 "nohup command &" will not only run a command in the background but keep running it even if the terminal is closed!
 
+to rename files in bulk:
+rename .sorted.bam.bai .sorted.markdup.bam.bai *.bai
+
 to uniq by column:
 for the first 3 columns to make a key field...
 sort -u -k1,3
