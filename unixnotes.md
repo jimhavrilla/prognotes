@@ -46,6 +46,20 @@ change locally
 15. git remote add origin https://github.com/jimhavrilla/general.git to add a remote repository origin; git remote to see what remote repositories are linked, like origin (and there can be a different one for fetch/pull and push); git push origin master will make the changes to the master branch remotely
 16. if you go on github you can add collaborators to your repository so they can help you with the coding and push changes
 17. git pull will update stuff from github to your local copy of the repository
+18. if you add some stuff to your git repo and don't want to always specify where you want to push and pull if you're just using remote origin and branch master...:
+Under [branch "master"], try adding the following to the repo's Git config file (.git/config):
+
+[branch "master"]
+    remote = origin
+    merge = refs/heads/master
+
+This tells Git 2 things:
+
+    When you're on the master branch, the default remote is origin.
+    When using git pull on the master branch, with no remote and branch specified, use the default remote (origin) and merge in the changes from the master branch.
+
+
+
 
 ** find . -type f -exec mv {}.bam {}.txt # to change all bams to .txt files...awesome
 
