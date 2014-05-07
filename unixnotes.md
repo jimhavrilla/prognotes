@@ -18,6 +18,9 @@ top will show processes top ones first and can be done by user
 
 "nohup command &" will not only run a command in the background but keep running it even if the terminal is closed!
 
+to rename files in bulk:
+rename .sorted.bam.bai .sorted.markdup.bam.bai *.bai
+
 to uniq by column:
 for the first 3 columns to make a key field...
 sort -u -k1,3
@@ -43,6 +46,22 @@ change locally
 15. git remote add origin https://github.com/jimhavrilla/general.git to add a remote repository origin; git remote to see what remote repositories are linked, like origin (and there can be a different one for fetch/pull and push); git push origin master will make the changes to the master branch remotely
 16. if you go on github you can add collaborators to your repository so they can help you with the coding and push changes
 17. git pull will update stuff from github to your local copy of the repository
+18. if you add some stuff to your git repo and don't want to always specify where you want to push and pull if you're just using remote origin and branch master...
+
+Under [branch "master"], try adding the following to the repo's Git config file (.git/config):
+
+[branch "master"]
+
+        remote = origin
+        merge = refs/heads/master
+
+This tells Git 2 things:
+
+    When you're on the master branch, the default remote is origin.
+    When using git pull on the master branch, with no remote and branch specified, use the default remote (origin) and merge in the changes from the master branch.
+
+
+
 
 ** find . -type f -exec mv {}.bam {}.txt # to change all bams to .txt files...awesome
 
@@ -75,42 +94,4 @@ e.g. cat less.txt | awk '{printf "%s %.2f %s\n", $1, $2, $3}'
 
 port search or install for macports
 
-\** is math.pow in python...it does 2 ** 3 = 8 like so
-
-numpy.arange(start,end,increment) can make a range of values (end not inclusive)
-numpy.linspace(start,end,num=numofsteps) can make a range of values too, even n-dimensionally, end not inclusive
-
-also in python: define functions like ---
-def stupidfunc(x,y):
-	"""this is dumb""" # a docstring which you can call and learn about your function using function.\_\_doc\_\_
-	return x+y
-
-** in ipython pressing Tab after object. gives you a list of fields or methods to choose from
-*** a python package called pandas utilizes quick data frame operations R-style but faster...can use data.columns, and a read_csv function to get the data already formatted...can also call column like data.column or data[["column","column2"]]; 
-*** you can run methods on columns in pandas like s.td() standard deviation or .plot() or .hist() (histogram and you can modify the graph too) or .head() or .tail() to get the first or last n items exactly like in unix and you can combine them or filter like data = data[(data.blahvalue <= some crap) & (data.crapvalue <= some blah)], which you can already do in python, or .describe() to get basic descriptive stats
-*** you can also change column names as long as you replace it with a list like data.columns = ['new', 'names', 'in', 'order']
-*****there is a datetime module in python and a function strptime that can strip the characters from a date/time type object so you can assign the dates to the data.index values and then use data.ix[datetime(blah,blah,blah)] and access information by date; then you can drop the date column by typing data.drop("date",axis=1) 0 for rows
-*** in pandas can access data rows at once like data.clouds[datetime(2012,1,1):datetime(2012,1,31)].str.contains("whatever")...pretty cool, also has a function isnull() to detect NaN and Nonetype data and pandas will shove in NaN automatically in blank cells and you can use fillna("") to instead fill columns with empty strings or the like
-*** accessing individual rows is possible in pandas with irow(1) or whatever number; data.iterrows() will give you idx and row which is cool because you can do for idx,row in data.iterrows() (iterrows takes away the dot syntax and requires the dictionary syntax though): and you can go further embedding an if statement like if "blah" in row["this stuff"]:
-*** can use data.apply(function) to apply a function to a DataFrame in pandas
-*** in pandas you can use data.groupby("column") to group your data by a value, to let you iterate through a group and pass data to excel sheets or csvs or make new columns in your data frame
-
-*** pandas has str functions like contains() or isin() that looks for strings in string columns
-
-also in python: subprocess can call unix commands and store output in python. if 
-find -name finds a name can use * same as in unix ls stuff.  also can do type -f to only look for files and d for directories
-also in python:
-	ct=0
-	while True:
-		try:
-			code
-		except Exception:
-			ct=ct+1
-			continue
-		else:
-			store variable[ct]
-			break
-
-touch to "change date modified in unix"
-
-for x in $(seq 1 to n) unix for loops
+\** is 
