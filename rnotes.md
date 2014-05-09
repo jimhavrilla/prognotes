@@ -66,7 +66,40 @@ Additionally you can use GRangesList to create an object containing multiple GRa
 
 The GRanges save rles which are all values and the number of times each value is repeated; you can use Views(rle,start,end) to see the IRanges for that rle and you can do it for FASTA files too not just rles
 
+getGEO("GSEid") can be used to get ExpressionSets by name; exprs(eset) to get microarray value matrix which can be called by name or number; pData() gives a phenotypic data frame of information about the columns of the ExpressionSet; fData() gets you feature data; the rows of the SummarizedExperiment are GRanges; as.numeric function can show you replicates for rows of a SummarizedExperiment, the length of each GRanges gives you the number of exons for each gene; exptData(se)$MIAME (minimal microarray experiment data) can be used to learn experimental metadata about a SummarizedExperiment
 
+rma(affydata) can normalize (by quantile) affymetrix data; for agilent two-color data use ReadTargets and read.maimages from limma
+
+density() can give you much the same thing as a histogram, and you can plot that for multiple arrays using multiple lines
+
+if you set the seed with set.seed(1) you can get the same answer every time you do a psuedorandom Monte Carlo simulation; you can use sample(rangeofnumbersfromalist,quantityofnumbers) to get you your random sample; rnorm() also creates pseudorandom normally distributed variables
+
+you can use stripchart(split(values,bygroup)) to see a graph (stripchart) of values for a particular gene for example separated by experimental group
+
+library(genefilter) has a function rowttests(matrix,group) which does very fast T or F tests along the rows of a matrix and can do so by group (returns statistics, difference of group means, p-vals)
+
+lmFit(ExpressionSet,modelmatrix) can be used to get a a linear model fit and a ttest for each gene in a gene expression set for a microarray; can ask for coefficients with coef(fit); eBayes(fit) can give the t-values, F-stats, and p-values for each gene and degrees of freedom (calculated differently using an empirical Bayes method to shrink probe-wise sample variances towards a common value); topTable(fit, coef=number, sort.by="column") can give you the table of values for the fit where the coefficient is a certain value and sorted by a particular parameter
+
+you can use identify(value1, value2) to create an index label for points in a plot wherein if you click on the point in the plot and click "Finish" above it it will spit out the data for that point to the screen (use with to make the data link, like with(this_data, identify(blah)))
+
+you can make a function that creates an image of your matrix by doing:
+myimage <- function(m,...) {
+	image(flipt(m),xaxt="n",yaxt="n",...)	
+}
+
+you can create a model matrix for linear models [1 0 0; 1 1 0; 1 0 1;] etc using model.matrix(~ variable_vector + other_variable_vectors + optional_interaction_vector of x:y or whatever) and instead of x + y + x:y you can write x*y and any transformations like squared need to be inside function I()
+
+loess() (local regression or locally weighted scatterplot smoothing) is a good idea for fitting a curve to a non-linear set of data; it uses Taylor's theorem to make many lines that make a curve or you can fit parabolas to make a curve; you can subtract the curve from the data to get a new zero and the data will usually look more linear and straightforward on an MAplot
+
+quantile normalization is based on the idea of assuming that the distribution of each sample is the same - which is a big assumption
+
+2-probe system in microarray has a perfect match probe and a deliberate one-base different mismatch probe to measure the background noise; pm - mm gives better accuracy but worse precision at low values
+
+you can use a boolean trick in plot(col=(i==4)+1) so that if it is the fourth thing it will plot the 2 color which is red and if not it will plot the 1 color which is black
+
+to install from github do install.packages("devtools") and source it with library(devtools) and then use install_github("repository","username")
+
+MAplot() is useful for interpretation and is in bioconductor it is y minus x vs the average of y and x
 
 you can use polygon() on a plot to make a box that colors a certain area if you like
 

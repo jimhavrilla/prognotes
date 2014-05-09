@@ -89,6 +89,8 @@ optionarg = args.option
 in bedtools with awk (average of reads per chromosome and the average of averages)
 cat SRR1006449_500kb_SORT.cov | bedtools groupby -g 1 -c 6 -o mean | awk '{ sum += $2; count +=1 } END { print sum/count}' | less
 
+can use tophat or tophat2 with bowtie2 indexes to do mapping and alignment including splices for RNA sequences; tophat2 can specify cores used and memory used
+
 use awk to print to certain decimal places
 e.g. cat less.txt | awk '{printf "%s %.2f %s\n", $1, $2, $3}'
 
