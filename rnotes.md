@@ -2,7 +2,7 @@ In R:
 
 to install a package you can use install.packages("pkg",lib="http://link.gz")
 
-some sites like Bioconductor let you do source("http://link.R") for the download then something like biocLite() to install the core stuff and biocLite(c("genefilter","geneplotter")) to install extra packages at once
+some sites like Bioconductor let you do source("http://link.R") for the download then biocLite() to install the core stuff and biocLite(c("genefilter","geneplotter")) to install extra packages at once (in R 3.0< you need to do library("BiocInstaller") for Bioconductor)
 
 getwd() gets the current working directory and setwd() sets it
 
@@ -35,7 +35,7 @@ split() can be used to divide the data in the first argument into different grou
 
 tapply() can be used to apply a function on the first argument grouped by the second to each cell of an array/table (1, 2, func)
 
-lapply() can be used to apply a function on each element of a list even a list of vectors (list, func)
+sapply() or lapply() can be used to apply a function on each element of a list even a list of vectors (list, func)
 
 sample() takes a random sample
 
@@ -89,11 +89,93 @@ myimage <- function(m,...) {
 
 you can create a model matrix for linear models [1 0 0; 1 1 0; 1 0 1;] etc using model.matrix(~ variable_vector + other_variable_vectors + optional_interaction_vector of x:y or whatever) and instead of x + y + x:y you can write x*y and any transformations like squared need to be inside function I()
 
-loess() (local regression or locally weighted scatterplot smoothing) is a good idea for fitting a curve to a non-linear set of data; it uses Taylor's theorem to make many lines that make a curve or you can fit parabolas to make a curve; you can subtract the curve from the data to get a new zero and the data will usually look more linear and straightforward on an MAplot
+loess() (local regression or locally weighted scatterplot smoothing) is a good idea for fitting a curve to a non-linear set of data; it uses Taylor's theorem to make many lines that make a curve or you can fit parabolas to make a curve; you can subtract the curve from the data to get a new zero and the data will usually look more linear and straightforward on an MAplot; by default it uses parabolas but if you set degree=1 inside loess it uses lines or the span argument tells it what fraction of the points to match it to (3/4, 1/2, etc.)
 
-quantile normalization is based on the idea of assuming that the distribution of each sample is the same - which is a big assumption
+as() allows you to convert objects to a different type
 
-2-probe system in microarray has a perfect match probe and a deliberate one-base different mismatch probe to measure the background noise; pm - mm gives better accuracy but worse precision at low values
+you can load samtools into R with library(Rsamtools) and you can index the bamfile with indexBam(bamfile); in the new version of bioconductor, in the library(GenomicAlignments) there is readGAlignments which will read the alignments from an indexed bam file; can then use coverage() on that object to get the coverage gives an rle list by chromosome; to read paired end use readGAlignmentPairs(); biomaRt get get you specific genes; you can even use arrows() to plot specific genes if you want to make them more visually appealing
+
+you can make a container of bams using BamFileList(); summarizeOverlaps() will count the reads for a GRangesList (of say, genes) for a BamFileList (set ignore.strand=TRUE if you like) (so summarizeOverlaps(features=grl,reads=fls,ignore.strand=TRUE)); summarizeOverlaps can also have a mode set, by default it is union but it could be intersectionnotempty or intersectionstrict; use assay(so) to get the counts for each gene; 
+
+you can also build a database of transcripts from GFF or GTF files using makeTranscriptDbFromGFF() 
+
+some assembly approaches for transcripts are Trinity, Velvet/Oases (starts with FASTQ); if you want to use a reference genome (starts with SAM/BAM), you can use Cufflinks, Scripture; when you align TopHat is a really good one to use, also GSNAP; 
+
+to do RNAseq assembly for visualization step for rat:
+
+fastq-dump SRR042499.sra
+tophat2 -o tophat_out -p 10 /path/to/Rattus_norvegicus/Ensembl/RGSC3.4/Sequence/Bowtie2Index/genome SRR042499.fastq
+cufflinks -o cufflinks -p 10 --GTF-guide /path/to/Rattus_norvegicus/Ensembl/RGSC3.4/Annotation/Genes/genes.gtf \
+tophat_out/accepted_hits.bam
+grep -v 'FPKM "0.0000000000"' transcripts.gtf | less
+
+RNAseq analysis:
+
+if you want pData from an ESet as colData do se<-SummarizedExperiment(eset);colData(se)<-DataFrame(pData(eset)); can use dds<-DESeqDataSet(se, design = ~1) from library(DESeq2) and to rename the first assay counts and modeling the counts on an intercept value and to use a more robust method for determining gene expression; call dds<-DESeq(dds) after creating the design(dds) <- ~ condition you want (in linear model form after running colData(dds)$condition <- relevel(colData(dds)$condition, "control")); then call results(dds) to see the pvalues and statistics for each gene; to sort by pvalue, do r<-results(dds);r<-r[order(r$pvalue),]; you can use MA plots and stripcharts to analyze your data
+
+to extract exons by gene load a db from Bioconductor and use exonsBy(db,by="gene")
+
+there is a function in library(ggbio) called autoplot but it is not as good as GViz
+
+there is a library in Bioconductor called Gviz which allows you to set up a GenomeAxisTrack() and an AnnotationTrack() and a DataTrack() for certain ranges and then plotTracks(gtrack,atrack); it's a great way to visualize NGS data and you can use type="polygon" on top of a plot to make it more visually easy to understand
+
+for microarrays, quantile normalization is based on the idea of assuming that the distribution of each sample is the same - which is a big assumption; create quantiles by taking the mean of rows after ordering a column by value (rank) then taking the mean of a row then assigning that value to the whole row then putting values back into their original rows (e.g. a gene's new mean value back into its original row)
+
+to do quantile normalization use library(preprocessCore) then normalize.quantiles(spms) (where spms is the PMs from the spike-in data)
+
+for microarrays, variance stabilizing normalization (VSN) creates a normalization such that variance is stable and does not depend on the mean
+
+for microarrays if you have good spike-ins you can use loess to remove the spike-in bias and make the spike-ins land at zero and the differentially expressed genes (if there are a lot and data is not normalizable) to go towards 1 on the MA plot (log2); in a situation like this you can also use subset quantile normalization (SQN) on the controls (spike-ins) and apply the mapping to the rest of the data
+
+in microarrays, a 2-probe system has a perfect match probe and a deliberate one-base different mismatch probe to measure the background noise; pm - mm gives better accuracy but worse precision at low values
+
+for an AffyBatch, load the library SpikeIn and also you can use pm() to get the Perfect Match probe; getting the probeNames with the SpikeIns are crucial to picking them out of your MAplot and to normalize the data with those spike-ins using loess() and you can use it on a subset of those points and get much the same answer by running order() on the As and Ms by the order of A, and take a rounded version of the sequence using seq(1,length(vect),len=5000) to get 5000 points that will then be integers in case it is a non-integer sequence; use predict(loessfit,data,frame(a=A)) and draw the loess line then plotting M-bias and it normalizes and looks way better
+
+for RNA-seq, normalizing is usually done by FPKM, fragments per kilobase per million map reads, where you divide by the total number of counts and then normalize each gene relative to its size; to check how the data looks you can remove the genes that have a 0 for log2 and see what the data looks like - normalized or not
+
+MDS (multidimensional scaling plot) is a great way to look at 22000 or so dimensional data points and treat them as 2 dimensional ones to judge distance between something like samples or genes; often easier to see that distance than for hierarchical clustering as well
+
+you take a line of height in the hierarchical cluster, everything below that line is a group/cluster; you take genes with the most variance if you want to make a heatmap from it, and organize the samples according to the clustering and the genes too; and remember clusters are random not deterministic
+
+k-means clustering is where the user tells the algorithm how many clusters to make (how many means to use - each observation goes into cluster with nearest mean); the clusters are generated by picking 3 points at random to start which is how they end up being so different each time - the centroid is the mean of that cluster in the 2 dimensions (x,y)
+
+can use dist() in R to calculate distances between samples, like Mahalonobis or Euclidean; hclust() is the hierarchical clustering function in R; myplclust() in rafalib will let you color it (it is by Rafa Irizarry); cutree() gives you the point in the hierarchy where to cut and make new clusters
+
+kmeans() can do kmeans clustering in R and it should typically be genes versus samples
+
+cmdscale() can be used to do multidimensional scaling, it can take a distance object and return a matrix with two columns for each sample
+
+you can use RColorBrewer library and colorRampPalette to create a color palette for a heatmap in R and heatmap(expressionSet[index of genes], col=colorRampPalette()); you can also use heatmap.2() and it is a bit more customizable
+
+you can use the createFolds() function to split data into folds at semi-random but with some organization
+
+you can use library(class) and knn() to create a k-nearest neighbors algorithm for model prediction (training and test set must be decided)
+
+pc=prcomp(matrix) gives you principal component analysis for a matrix, pc$sdev^2 gives variance for each component, divide by sum to get percentage explained
+
+%*% in R is multiplication for matrices, * just does juxtaposition
+
+you can use library(sva) to get sva() and ComBat() to adjust your data for batch effects (former if you don't know the effect, latter if you do) you need to feed them both the data matrix and the model matrix and for SVA you need to use a linear model made by lmFit
+
+svd() will run singular value decomposition
+
+shrinking all standard deviations for each gene towards the average std dev for all genes gives a better t-statistic (eBayes)
+
+to do limma analysis of ExpressionSet data: lmfit, then eBayes, then topTable (use a model matrix with lmFit like model.matrix(~ condition) where condition is 1 or 2 diseased or not); in topTable, coef=2 specifies which column is the column of statistical interest
+
+roast() runs rotation gene set tests and mroast() runs up, down regulation, and mixed for multiple gene sets
+
+to annotate different expression sets take the annotation of an ExpressionSet and dl from biocLite(paste0(annotation(exprs),".db") use it as a library and also use library(AnnotationDbi)
+
+the biomaRt library can also be used to map annotations
+
+can use ifelse(points,"color",ifelse(otherpoints,"othercolor","secondarycolor")) to color by point
+
+if you use range=0 in boxplot() you can remove outlier labels in the plot
+
+you can use points(and designate the background color and pch (color of points) to label certain data points)
+
+you can use which(blah values==whatever) to get a logical vector to use to get certain data points
 
 you can use a boolean trick in plot(col=(i==4)+1) so that if it is the fourth thing it will plot the 2 color which is red and if not it will plot the 1 color which is black
 

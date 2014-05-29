@@ -25,6 +25,9 @@ to uniq by column:
 for the first 3 columns to make a key field...
 sort -u -k1,3
 
+if you want to copy all files except a few (and if the transfer gets interrupted it can be easily restarted) use rsync like so (a is recursive P is show progress):
+rsync -aP --exclude==AUTHORS --exclude==COPYING --exclude==README * /usr/local/bin
+
 find . -type f -name "*1*" -exec grep Volume {} \;  # cool way to look for a certain group of files, then execute a command on the results; the {} can be used to execute the command on a specific file or if empty all files.  the \; terminates output because otherwise you could keep typing commands
 
 ###git
@@ -46,7 +49,8 @@ change locally
 15. git remote add origin https://github.com/jimhavrilla/general.git to add a remote repository origin; git remote to see what remote repositories are linked, like origin (and there can be a different one for fetch/pull and push); git push origin master will make the changes to the master branch remotely
 16. if you go on github you can add collaborators to your repository so they can help you with the coding and push changes
 17. git pull will update stuff from github to your local copy of the repository
-18. if you add some stuff to your git repo and don't want to always specify where you want to push and pull if you're just using remote origin and branch master...
+18. can also do git commit -a if too lazy to remember all changes
+19. if you add some stuff to your git repo and don't want to always specify where you want to push and pull if you're just using remote origin and branch master...
 
 Under [branch "master"], try adding the following to the repo's Git config file (.git/config):
 
@@ -60,8 +64,7 @@ This tells Git 2 things:
     When you're on the master branch, the default remote is origin.
     When using git pull on the master branch, with no remote and branch specified, use the default remote (origin) and merge in the changes from the master branch.
 
-
-
+grep ^pattern file (beginning of line); grep pattern$ file (end of line) grep 'exactmatch' file; grep -v 'ignorepattern' file; grep -h 'suppressfromfileoutputfrommultiplefiles' filelist
 
 ** find . -type f -exec mv {}.bam {}.txt # to change all bams to .txt files...awesome
 
@@ -96,4 +99,3 @@ e.g. cat less.txt | awk '{printf "%s %.2f %s\n", $1, $2, $3}'
 
 port search or install for macports
 
-\** is 
