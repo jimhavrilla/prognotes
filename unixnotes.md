@@ -50,7 +50,9 @@ change locally
 16. if you go on github you can add collaborators to your repository so they can help you with the coding and push changes
 17. git pull will update stuff from github to your local copy of the repository
 18. can also do git commit -a if too lazy to remember all changes
-19. if you add some stuff to your git repo and don't want to always specify where you want to push and pull if you're just using remote origin and branch master...
+19. git reset --hard HEAD^ to undo last commit or HEAD~2 to go back 2 commits, etc.
+20. if you want to auto-pull from remote origin and master branch do git branch --set-upstream master origin/master
+21. if you add some stuff to your git repo and don't want to always specify where you want to push and pull if you're just using remote origin and branch master...
 
 Under [branch "master"], try adding the following to the repo's Git config file (.git/config):
 
