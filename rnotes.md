@@ -8,6 +8,8 @@ getwd() gets the current working directory and setwd() sets it
 
 list.files() is like typing ls in UNIX
 
+table=read.csv("~/work/data/pmodeldata/allratio.bed",header=FALSE,sep="\t") is how to read a tsv
+
 using rpy will allow you to import R into python like rpy2.robjects.r.barplot()
 or gd=py2.robjects.packages.importr("grDevices") then gd.jpeg("file.jpeg") then plot then gd.dev_off()
 
@@ -173,7 +175,7 @@ can use ifelse(points,"color",ifelse(otherpoints,"othercolor","secondarycolor"))
 
 if you use range=0 in boxplot() you can remove outlier labels in the plot
 
-you can use points(and designate the background color and pch (color of points) to label certain data points)
+you can use points(x,y,col='red',pch='0') to label certain data points
 
 you can use which(blah values==whatever) to get a logical vector to use to get certain data points
 

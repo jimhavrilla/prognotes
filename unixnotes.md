@@ -18,6 +18,8 @@ top will show processes top ones first and can be done by user
 
 "nohup command &" will not only run a command in the background but keep running it even if the terminal is closed!
 
+on mac: sudo port -f deactivate will deactivate an active port
+
 to rename files in bulk:
 rename .sorted.bam.bai .sorted.markdup.bam.bai *.bai
 
@@ -91,13 +93,28 @@ parser.add_argument('-o','--option',help='this option does this') (if you type t
 args=parser.parse_args()
 optionarg = args.option
 
+if you want to move a word around a string in python:
+def move_word(s, word, pos):
+   split = s.split()
+   split.insert(pos, split.pop(split.index(word)))
+   return ' '.join(split)
+
+to use awk to recognize separators and output them (and swap values):
+awk -F$'\t' '{OFS="\t"} {t=$2;$2=$4;$4=t;t=$3;$3=$5;$5=t;print;}'
+awk -F$'\t' '{OFS="\t"} {if (($7 == "-") && ($2 > $3)) {t=$2; $2=$3; $3=t;} print $0}'
+
 in bedtools with awk (average of reads per chromosome and the average of averages)
 cat SRR1006449_500kb_SORT.cov | bedtools groupby -g 1 -c 6 -o mean | awk '{ sum += $2; count +=1 } END { print sum/count}' | less
+
+cat -et to show special characters
+
+sort -c can check if input is properly sorted
 
 can use tophat or tophat2 with bowtie2 indexes to do mapping and alignment including splices for RNA sequences; tophat2 can specify cores used and memory used
 
 use awk to print to certain decimal places
 e.g. cat less.txt | awk '{printf "%s %.2f %s\n", $1, $2, $3}'
 
-port search or install for macports
+sudo port search or install for macports
 
+ssh -p port user@mysite.com or user@127.0.0.1 if you need to use a port in ssh
